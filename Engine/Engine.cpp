@@ -1,13 +1,19 @@
 ﻿#include "Engine.h"
 
+#include <iostream>
+
 // Bootstrapping, essentially...
 bool RoseEngine::Init()
 {
     if (!screen)
         screen = new Screen();
 
-    screen->Init(600, 800, SDL_WINDOW_FULLSCREEN);
+    if (!scriptHandler)
+        scriptHandler = new ScriptHandler();
 
+    screen->Init(800, 600, SDL_WINDOW_RESIZABLE);
+    scriptHandler->Init();
+    
     return true;
 }
 
@@ -26,9 +32,19 @@ void RoseEngine::Update()
 // Function that handles actual rendering. RoseEngine::Update() comes first.
 void RoseEngine::Render()
 {
-    
     screen->Blit();
 }
 
-
+// Runs whenever the window ends up closing!
+SDL_AppResult RoseEngine::Shutdown(bool didSucceed)
+{
+    if (scriptHandler)
+    {
+        scriptHandler->Liquidate();
+        
+        delete scriptHandler;
+        scriptHandler = nullptr;
+    }
+    return didSucceed ? SDL_APP_SUCCESS : SDL_APP_FAILURE;
+}
 

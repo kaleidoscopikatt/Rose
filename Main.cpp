@@ -12,7 +12,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 
     if (!gameEngine->Init()) {
         SDL_Log("RoseEngine.Init() failed");
-        return SDL_APP_FAILURE;
+        return gameEngine->Shutdown(false);
     }
     
     return SDL_APP_CONTINUE;
@@ -24,18 +24,18 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
         gameEngine->HandleEvent(*event);
 
     if (event->type == SDL_EVENT_QUIT)
-        return SDL_APP_SUCCESS;
+        return gameEngine->Shutdown(true);
     
     return SDL_APP_CONTINUE;
 }
 
 SDL_AppResult SDL_AppIterate(void *appstate)
 {
-    if (!gameEngine)
-        return SDL_APP_FAILURE;
-
-    gameEngine->Update();
-    gameEngine->Render();
+    if (gameEngine)
+    {
+        gameEngine->Update();
+        gameEngine->Render();
+    }
     
     return SDL_APP_CONTINUE;
 }

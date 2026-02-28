@@ -28,7 +28,6 @@ void Screen::SetDrawColour(Colour* drawColour)
     SDL_SetRenderDrawColor(screenRenderer, drawColour->R, drawColour->G, drawColour->B, 255);
 }
 
-
 void Screen::SetBackgroundColour(Colour* backgroundColour)
 {
     Colour oldDrawColour = *this->currDrawColour;
