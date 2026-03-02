@@ -12,7 +12,7 @@ bool RoseEngine::Init()
         scriptHandler = new ScriptHandler();
 
     screen->Init(800, 600, SDL_WINDOW_RESIZABLE);
-    scriptHandler->Init();
+    scriptHandler->Init(screen);
     
     return true;
 }
@@ -26,7 +26,7 @@ void RoseEngine::HandleEvent(const SDL_Event& event)
 // Pre-Rendering Function for every frame!
 void RoseEngine::Update()
 {
-    
+    scriptHandler->Update(1/60);
 }
 
 // Function that handles actual rendering. RoseEngine::Update() comes first.
